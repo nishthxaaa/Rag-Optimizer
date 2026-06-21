@@ -1,0 +1,61 @@
+{
+  "collection_name": "8678c0f5_small",
+  "top_k": 6,
+  "chunk_size": 256,
+  "chunk_overlap": 30,
+  "chunk_name": "small",
+  "variant_id": "small_k6",
+  "final_score": 9.0,
+  "doc_id": "8678c0f5",
+  "scoreboard": {
+    "small_k3": [
+      {
+        "faithfulness": 10,
+        "completeness": 10,
+        "conciseness": 10,
+        "reasoning": "The answer directly addresses the question with claims fully supported by the context.",
+        "average": 10.0,
+        "question": "What are the primary consequences of deficiencies in the point of capture for electricity distribution companies?",
+        "answer": "The primary consequences of deficiencies in the point of capture for electricity distribution companies are billing inaccuracies, delayed fraud detection, and significant revenue leakage."
+      },
+      {
+        "faithfulness": 8,
+        "completeness": 6,
+        "conciseness": 7,
+        "reasoning": "The answer is mostly supported by the context, but lacks specific details about the impact of limitations on real-world field conditions for utility meter reading.",
+        "average": 7.0,
+        "question": "How do the limitations of traditional OCR engines impact their effectiveness in real-world field conditions for utility meter reading?",
+        "answer": "Traditional OCR engines, such as Tesseract, depend on image preprocessing steps like binarization, segmentation, and noise reduction, which work well on clear, structured images. However, they struggle in real-world field conditions with blur, noise, or changing light, making them less effective for utility meter reading."
+      },
+      {
+        "faithfulness": 8,
+        "completeness": 8,
+        "conciseness": 2,
+        "reasoning": "The answer is mostly supported by the context but contains unnecessary and verbose content.",
+        "average": 6.0,
+        "question": "What two challenges faced by DISCOMs in India are exacerbated by the reliance on purely manual data entry and the lack of systematic image verification?",
+        "answer": "Inaccuracies and Vulnerabilities in Manual Reading, and Connectivity Constraints in \"Zero-Network\" Zones are not the two challenges exacerbated by the reliance on purely manual data entry and the lack of systematic image verification. \n\nThe two challenges faced by DISCOMs in India that are exacerbated by the reliance on purely manual data entry and the lack of systematic image verification are: \n1. Inaccuracies and Vulnerabilities in Manual Reading \n2. (The context does not explicitly state the second challenge as being directly related to the lack of systematic image verification, however, it can be inferred that the second challenge is related to)  Inaccurate billing which directly contributes to Aggregate Technical and Commercial (AT&C) losses and increases the frequency of consumer disputes."
+      }
+    ],
+    "small_k6": [
+      {
+        "faithfulness": 10,
+        "completeness": 10,
+        "conciseness": 10,
+        "reasoning": "The answer directly addresses the question and is fully supported by the context.",
+        "average": 10.0,
+        "question": "What are the primary consequences of deficiencies in the point of capture for electricity distribution companies?",
+        "answer": "The primary consequences of deficiencies in the point of capture for electricity distribution companies are billing inaccuracies, delayed fraud detection, and significant revenue leakage."
+      },
+      {
+        "faithfulness": 8,
+        "completeness": 9,
+        "conciseness": 7,
+        "reasoning": "The answer is well-supported by the context, fully addresses the question, and is somewhat verbose.",
+        "average": 8.0,
+        "question": "How do the limitations of traditional OCR engines impact their effectiveness in real-world field conditions for utility meter reading?",
+        "answer": "Traditional OCR engines, such as Tesseract, depend on image preprocessing steps like binarization, segmentation, and noise reduction. However, these methods work well only on clear, structured images. In real-world field conditions, they struggle with issues like blur, noise, or changing light, which can result in corrupted Optical Character Recognition (OCR) extraction and negate the efficiency of automated billing."
+      }
+    ]
+  }
+}
