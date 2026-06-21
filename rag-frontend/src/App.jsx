@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useQuery, useMutation, useQueryClient, QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 import {
   Upload, FileText, Cpu, Trophy, MessageSquare,
   CheckCircle, XCircle, Loader2, ChevronRight,
@@ -114,7 +115,7 @@ function Header({ phase }) {
   return (
     <header className="header">
       <div className="header-inner">
-        <div className="logo">
+        <div className="logo" onClick={() => navigate("/")} style={{ cursor: "pointer" }}>
           <Zap size={20} className="logo-icon" />
           <span className="logo-text">RAG Optimizer</span>
         </div>
