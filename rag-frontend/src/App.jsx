@@ -7,8 +7,8 @@ import {
   Zap, BarChart3, Send, Bot, User, AlertCircle
 } from "lucide-react";
 
-const API = "http://localhost:8000";
-const WS  = "ws://localhost:8000";
+const API = import.meta.env.VITE_API_URL || "http://localhost:8000";
+const WS  = import.meta.env.VITE_WS_URL  || "ws://localhost:8000";
 
 const queryClient = new QueryClient();
 export default function AppWrapper() {
