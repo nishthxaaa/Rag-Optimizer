@@ -19,4 +19,4 @@ Thumbs.db
 
 # Frontend
 rag-frontend/node_modules/
-rag-frontend/dist/
+rag-frontend/dist/"rag-frontend/node_modules/" 
