@@ -1,6 +1,22 @@
+# Python
 venv/
 __pycache__/
 *.pyc
+*.pyo
+.Python
+
+# Environment — NEVER commit this
 .env
+
+# Data folders — too large for GitHub, regenerated at runtime
 chroma_db/
-*.pdf
+uploaded_docs/
+winning_config.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Frontend
+rag-frontend/node_modules/
+rag-frontend/dist/
