@@ -1,5 +1,4 @@
 import os
-os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = "python"
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from backend.api.routes import router as http_router
@@ -12,9 +11,17 @@ app = FastAPI(
 )
 
 # Allow the React dev server to call the API
+allowed_origins_env = os.getenv("ALLOWED_ORIGINS", "")
+production_origins = [o.strip() for o in allowed_origins_env.split(",") if o.strip()]
+
+origins = [
+    "http://localhost:5173",
+    "http://localhost:3000",
+] + production_origins
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:3000"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
