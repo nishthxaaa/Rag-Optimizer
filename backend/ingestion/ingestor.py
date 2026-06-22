@@ -3,7 +3,7 @@ import tiktoken
 import chromadb
 import uuid
 from langchain_chroma import Chroma
-from langchain.schema import Document
+from langchain_core.documents import Document
 from backend.config import get_embeddings, CHROMA_PATH
 
 CHUNK_CONFIGS = [

@@ -1,6 +1,6 @@
 from backend.config import get_llm
 from langchain.prompts import ChatPromptTemplate
-from langchain.schema.output_parser import StrOutputParser
+from langchain_core.output_parsers import StrOutputParser
 import json
 import re
 

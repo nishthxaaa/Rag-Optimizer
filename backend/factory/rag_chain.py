@@ -2,8 +2,8 @@ import chromadb
 import time
 from langchain_chroma import Chroma
 from langchain.prompts import ChatPromptTemplate
-from langchain.schema.runnable import RunnablePassthrough
-from langchain.schema.output_parser import StrOutputParser
+from langchain_core.runnables import RunnablePassthrough
+from langchain_core.output_parsers import StrOutputParser
 from backend.config import get_llm, get_embeddings, CHROMA_PATH
 
 # The prompt template every RAG variant uses
