@@ -23,13 +23,17 @@ _EMBEDDINGS = None
 def get_embeddings():
     global _EMBEDDINGS
     if _EMBEDDINGS is None:
+        print("[Config] Loading embedding model (ONNX)...")
         from langchain_huggingface import HuggingFaceEmbeddings
         _EMBEDDINGS = HuggingFaceEmbeddings(
-            model_name="all-MiniLM-L6-v2",
-            model_kwargs={"device": "cpu"},
+            model_name="sentence-transformers/all-MiniLM-L6-v2",
+            model_kwargs={
+                "device": "cpu",
+                "backend": "onnx",        # ← uses ONNX instead of PyTorch
+            },
             encode_kwargs={"normalize_embeddings": True},
         )
-        print("[Config] Embedding model loaded.")
+        print("[Config] Embedding model ready.")
     return _EMBEDDINGS
 
 def get_llm():
