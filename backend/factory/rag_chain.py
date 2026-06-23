@@ -1,7 +1,7 @@
 import chromadb
 import time
 from langchain_chroma import Chroma
-from langchain.prompts import ChatPromptTemplate
+from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 from backend.config import get_llm, get_embeddings, CHROMA_PATH
