@@ -86,7 +86,7 @@ def build_all_variants(doc_id: str) -> list[dict]:
     variants = []
     
     # Test each chunk size with two different top_k values
-    top_k_options = [4]
+    top_k_options = [3,6]
     
     for config in CHUNK_CONFIGS:
         for top_k in top_k_options:
