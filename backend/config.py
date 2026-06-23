@@ -4,51 +4,48 @@ from dotenv import load_dotenv
 
 load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
 
-LLM_PROVIDER = os.getenv("LLM_PROVIDER", "openai")
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
+LLM_PROVIDER      = os.getenv("LLM_PROVIDER", "groq")
+OPENAI_API_KEY    = os.getenv("OPENAI_API_KEY", "")
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "")
-GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
+GOOGLE_API_KEY    = os.getenv("GOOGLE_API_KEY", "")
+GROQ_API_KEY      = os.getenv("GROQ_API_KEY", "")
+HF_TOKEN          = os.getenv("HF_TOKEN", "")
+LLM_MODEL         = os.getenv("LLM_MODEL", "llama-3.1-8b-instant")
+CHROMA_PATH       = "chroma_db"
 
-LLM_MODEL = os.getenv("LLM_MODEL", "gpt-4o")
-EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "text-embedding-3-small")
-CHROMA_PATH = "chroma_db"
-
-# ── Pre-load embedding model once at startup ──────────────────
-# This runs when the server starts, not when the first request comes in.
-# Prevents request timeouts on Render free tier.
-print("[Config] Pre-loading embedding model...")
+# ── Embeddings singleton ───────────────────────────────────────────────────────
 _EMBEDDINGS = None
 
 def get_embeddings():
+    """
+    Uses HuggingFace Inference API — zero local RAM, runs in the cloud.
+    Model runs on HF servers, we just send text and get vectors back.
+    """
     global _EMBEDDINGS
     if _EMBEDDINGS is None:
-        print("[Config] Loading embedding model (ONNX)...")
-        from langchain_huggingface import HuggingFaceEmbeddings
-        _EMBEDDINGS = HuggingFaceEmbeddings(
-            model_name="sentence-transformers/all-MiniLM-L6-v2",
-            model_kwargs={
-                "device": "cpu",
-                "backend": "onnx",        # ← uses ONNX instead of PyTorch
-            },
-            encode_kwargs={"normalize_embeddings": True},
+        print("[Config] Connecting to HuggingFace Inference API for embeddings...")
+        from langchain_huggingface import HuggingFaceEndpointEmbeddings
+        _EMBEDDINGS = HuggingFaceEndpointEmbeddings(
+            model="sentence-transformers/all-MiniLM-L6-v2",
+            huggingfacehub_api_token=HF_TOKEN,
         )
-        print("[Config] Embedding model ready.")
+        print("[Config] HuggingFace embeddings ready.")
     return _EMBEDDINGS
 
+# ── LLM ───────────────────────────────────────────────────────────────────────
 def get_llm():
-    if LLM_PROVIDER == "openai":
-        from langchain_openai import ChatOpenAI
-        return ChatOpenAI(
-            model=LLM_MODEL,
-            openai_api_key=OPENAI_API_KEY,
-            temperature=0.0,
-        )
-    elif LLM_PROVIDER == "groq":
+    if LLM_PROVIDER == "groq":
         from langchain_groq import ChatGroq
         return ChatGroq(
             groq_api_key=GROQ_API_KEY,
             model_name=LLM_MODEL,
+            temperature=0.0,
+        )
+    elif LLM_PROVIDER == "openai":
+        from langchain_openai import ChatOpenAI
+        return ChatOpenAI(
+            model=LLM_MODEL,
+            openai_api_key=OPENAI_API_KEY,
             temperature=0.0,
         )
     elif LLM_PROVIDER == "anthropic":
@@ -63,12 +60,6 @@ def get_llm():
         return ChatGoogleGenerativeAI(
             model=LLM_MODEL,
             google_api_key=GOOGLE_API_KEY,
-            temperature=0.0,
-        )
-    elif LLM_PROVIDER == "ollama":
-        from langchain_community.chat_models import ChatOllama
-        return ChatOllama(
-            model=LLM_MODEL,
             temperature=0.0,
         )
     else:
