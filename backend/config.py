@@ -14,14 +14,31 @@ LLM_MODEL = os.getenv("LLM_MODEL", "gpt-4o")
 EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "text-embedding-3-small")
 CHROMA_PATH = "chroma_db"
 
+# ── Pre-load embedding model once at startup ──────────────────
+# This runs when the server starts, not when the first request comes in.
+# Prevents request timeouts on Render free tier.
+print("[Config] Pre-loading embedding model...")
+_EMBEDDINGS = None
+
+def get_embeddings():
+    global _EMBEDDINGS
+    if _EMBEDDINGS is None:
+        from langchain_huggingface import HuggingFaceEmbeddings
+        _EMBEDDINGS = HuggingFaceEmbeddings(
+            model_name="all-MiniLM-L6-v2",
+            model_kwargs={"device": "cpu"},
+            encode_kwargs={"normalize_embeddings": True},
+        )
+        print("[Config] Embedding model loaded.")
+    return _EMBEDDINGS
+
 def get_llm():
-    """Returns the configured LLM. Swap provider here when ready."""
     if LLM_PROVIDER == "openai":
         from langchain_openai import ChatOpenAI
         return ChatOpenAI(
             model=LLM_MODEL,
             openai_api_key=OPENAI_API_KEY,
-            temperature=0.0,  # Deterministic for evaluation
+            temperature=0.0,
         )
     elif LLM_PROVIDER == "groq":
         from langchain_groq import ChatGroq
@@ -52,9 +69,3 @@ def get_llm():
         )
     else:
         raise ValueError(f"Unknown LLM_PROVIDER: {LLM_PROVIDER}")
-
-def get_embeddings():
-    """Returns a stable, local HuggingFace embedding model."""
-    from langchain_huggingface import HuggingFaceEmbeddings
-    # This uses a lightweight, highly accurate local model
-    return HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
